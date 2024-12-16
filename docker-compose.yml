@@ -1,0 +1,26 @@
+services:
+  java_app:
+   container_name: java_app
+   image: pee-java-app:1.0.0
+   build: .
+   ports: 
+    - 8090:8090
+   environment:
+    - DATABASE_URL=jdbc:mysql://java_db:3306/pruebatecnica
+    - DATABASE_USER=user
+    - DATABASE_PASSWORD=password
+    - PORT=8090
+   depends_on:
+    - java_db
+  java_db:
+   container_name: java_db
+   image: mysql:latest
+   ports:
+    - 3306:3306
+   environment:
+    MYSQL_DATABASE: 'pruebatecnica'
+    MYSQL_USER: 'user'
+    MYSQL_PASSWORD: 'password'
+    MYSQL_ROOT_PASSWORD: 'password'
+   volumes:
+    - ./data:/var/lib/mysql	
