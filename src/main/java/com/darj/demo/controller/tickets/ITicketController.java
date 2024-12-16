@@ -35,6 +35,12 @@ public interface ITicketController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = TicketConstants.RESPONSE_200, description = TicketConstants.TICKETS_SUMMARY),
 			@ApiResponse(responseCode = TicketConstants.RESPONSE_500, description = TicketConstants.INTERNAL_SERVER_ERROR) })
-	ResponseEntity<HttpResponseMessage<TicketDto>> update(@RequestBody TicketDto ticketDto);
+	ResponseEntity<HttpResponseMessage<TicketDto>> update(TicketDto ticketDto);
+	
+	@Operation(summary = TicketConstants.TICKETS_SUMMARY, description = TicketConstants.TICKETS_DELETE_DESCRIPTION, tags = TicketConstants.TICKETS_TAG)
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = TicketConstants.RESPONSE_200, description = TicketConstants.TICKETS_SUMMARY),
+			@ApiResponse(responseCode = TicketConstants.RESPONSE_500, description = TicketConstants.INTERNAL_SERVER_ERROR) })
+	ResponseEntity<HttpResponseMessage<TicketDto>> delete(Long id);
 
 }

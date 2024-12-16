@@ -69,4 +69,17 @@ public class TicketService implements ITicketService {
 		TicketEntity entity = ticketRepository.save(ticketEntity);
 		return mapper.entityToDto(entity);
 	}
+	
+	@Override
+	@Caching(evict = {
+			@CacheEvict(value = CacheConstants.TICKETS_CACHE, allEntries = true)
+	})
+	public TicketDto delete(Long id) {
+		Optional<TicketEntity> optTicketEntity = ticketRepository.delete(id);
+		if(optTicketEntity.isEmpty()) {
+			throw MessagesUtil.buildException(MessagesEnum.RECORD_NOT_FOUND);
+		}
+		ticketRepository.delete(optTicketEntity.get());
+		return mapper.entityToDto(optTicketEntity.get());
+	}
 }

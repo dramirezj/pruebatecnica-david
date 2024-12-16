@@ -14,4 +14,6 @@ public interface ITicketService {
 	
 	TicketDto update(TicketDto ticketDto);
 	
+	TicketDto delete(Long id);
+	
 }

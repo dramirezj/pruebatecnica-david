@@ -1,5 +1,7 @@
 package com.darj.demo.persistence.repositories.tickets;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -18,5 +20,8 @@ public interface TicketRepository extends CrudRepository<TicketEntity, Long> {
 	
 	@Query(name = "findByFilter", value = "SELECT t FROM TicketEntity t WHERE t.id = :id")
 	Page<TicketEntity> findByFilter(Pageable pageable, @Param("id") Long id);
+	
+	@Query(name = "findByFilter", value = "SELECT t FROM TicketEntity t WHERE t.id = :id")
+	Optional<TicketEntity> delete(Long id);
 	
 }

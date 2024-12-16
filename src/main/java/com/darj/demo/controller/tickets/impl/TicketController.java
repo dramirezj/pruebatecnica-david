@@ -4,6 +4,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -51,7 +52,7 @@ public class TicketController implements ITicketController {
 		return HttpResponseBuilder.buildResponse(new HttpResponseMessage<>(MessagesEnum.SUCCESSFULLY_OPERATION.name(),
 				MessagesEnum.SUCCESSFULLY_OPERATION.getMessage(), MessageLevel.INFO, content), HttpStatus.OK);
 	}
-	
+
 	@PutMapping(path = "update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<HttpResponseMessage<TicketDto>> update(@RequestBody TicketDto ticketDto) {
 		var content = ticketService.update(ticketDto);
@@ -62,13 +63,22 @@ public class TicketController implements ITicketController {
 	@GetMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Override
 	public ResponseEntity<HttpResponseMessage<Pager<TicketDto>>> findByFilter(
-			@RequestHeader(name = "id", required = true) Long id,
+			@RequestHeader(required = true) Long id,
 			@RequestParam(name = RestConstants.PAGE_NUMBER_HEADER_NAME, required = false, defaultValue = TicketConstants.PAGE_NUMBER) Integer pageNumber,
 			@RequestParam(name = RestConstants.PAGE_SIZE_HEADER_NAME, required = false, defaultValue = TicketConstants.PAGE_SIZE) Integer pageSize) {
 		var content = ticketService.findByFilter(id, pageNumber, pageSize);
 		var pager = new Pager<>(ticketMapper.entityToDto(content.getRecords()), content.getTotalSize());
 		return HttpResponseBuilder.buildResponse(new HttpResponseMessage<>(MessagesEnum.SUCCESSFULLY_OPERATION.name(),
 				MessagesEnum.SUCCESSFULLY_OPERATION.getMessage(), MessageLevel.INFO, pager), HttpStatus.OK);
+	}
+
+	@DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Override
+	public ResponseEntity<HttpResponseMessage<TicketDto>> delete(
+			@RequestHeader(name = "id", required = true) Long id) {
+		var content = ticketService.delete(id);
+		return HttpResponseBuilder.buildResponse(new HttpResponseMessage<>(MessagesEnum.SUCCESSFULLY_OPERATION.name(),
+				MessagesEnum.SUCCESSFULLY_OPERATION.getMessage(), MessageLevel.INFO, content), HttpStatus.OK);
 	}
 
 }
