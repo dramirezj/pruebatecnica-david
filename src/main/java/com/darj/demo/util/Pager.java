@@ -11,5 +11,6 @@ public class Pager<T> {
 
 	private final List<T> records;
     private final Long totalSize;
+    private final int totalPages;
 	
 }

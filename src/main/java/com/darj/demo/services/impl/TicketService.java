@@ -35,7 +35,7 @@ public class TicketService implements ITicketService {
 	@CachePut(value = CacheConstants.TICKETS_CACHE)
 	public Pager<TicketEntity> all(Integer pageNumber, Integer pageSize) {
 		var response = ticketRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("id").descending()));
-		return new Pager<>(response.getContent(), response.getTotalElements());
+		return new Pager<>(response.getContent(), response.getTotalElements(), response.getTotalPages());
 	}
 	
 	@Transactional(readOnly = true)
@@ -43,7 +43,7 @@ public class TicketService implements ITicketService {
 	@CachePut(value = CacheConstants.TICKETS_CACHE)
 	public Pager<TicketEntity> findByFilter(Long id, Integer pageNumber, Integer pageSize) {
 		var response = ticketRepository.findByFilter(PageRequest.of(pageNumber, pageSize, Sort.by("id").descending()), id);
-		return new Pager<>(response.getContent(), response.getTotalElements());
+		return new Pager<>(response.getContent(), response.getTotalElements(), response.getTotalPages());
 	}
 
 	@Override

@@ -41,7 +41,7 @@ public class TicketController implements ITicketController {
 			@RequestParam(name = RestConstants.PAGE_NUMBER_HEADER_NAME, defaultValue = RestConstants.PAGE_NUMBER) Integer pageNumber,
 			@RequestParam(name = RestConstants.PAGE_SIZE_HEADER_NAME, defaultValue = RestConstants.PAGE_SIZE) Integer pageSize) {
 		var content = ticketService.all(pageNumber, pageSize);
-		var pager = new Pager<>(ticketMapper.entityToDto(content.getRecords()), content.getTotalSize());
+		var pager = new Pager<>(ticketMapper.entityToDto(content.getRecords()), content.getTotalSize(), content.getTotalPages());
 		return HttpResponseBuilder.buildResponse(new HttpResponseMessage<>(MessagesEnum.SUCCESSFULLY_OPERATION.name(),
 				MessagesEnum.SUCCESSFULLY_OPERATION.getMessage(), MessageLevel.INFO, pager), HttpStatus.OK);
 	}
@@ -67,7 +67,7 @@ public class TicketController implements ITicketController {
 			@RequestParam(name = RestConstants.PAGE_NUMBER_HEADER_NAME, required = false, defaultValue = TicketConstants.PAGE_NUMBER) Integer pageNumber,
 			@RequestParam(name = RestConstants.PAGE_SIZE_HEADER_NAME, required = false, defaultValue = TicketConstants.PAGE_SIZE) Integer pageSize) {
 		var content = ticketService.findByFilter(id, pageNumber, pageSize);
-		var pager = new Pager<>(ticketMapper.entityToDto(content.getRecords()), content.getTotalSize());
+		var pager = new Pager<>(ticketMapper.entityToDto(content.getRecords()), content.getTotalSize(), content.getTotalPages());
 		return HttpResponseBuilder.buildResponse(new HttpResponseMessage<>(MessagesEnum.SUCCESSFULLY_OPERATION.name(),
 				MessagesEnum.SUCCESSFULLY_OPERATION.getMessage(), MessageLevel.INFO, pager), HttpStatus.OK);
 	}
