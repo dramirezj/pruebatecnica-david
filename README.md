@@ -1,3 +1,5 @@
+El código cuenta con uso de cache para optimizar el llamado a la base de datos.
+
 #Se debe la base de datos y se debe crear un usuario
 1. insert into user (id, name, create_at, update_at) values (1, 'david', '2024-12-16', null);
 
